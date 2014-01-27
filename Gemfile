@@ -1,1 +1,2 @@
-gem 'net-ldap', :git => "git://github.com/ruby-ldap/ruby-net-ldap.git"
+source 'https://rubygems.org'
+gemspec

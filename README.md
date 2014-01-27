@@ -3,10 +3,10 @@
 A Ruby library for CMU data. Currently only supports directory.
 
 ## Usage
-First, `bundle install` all the dependencies. Then, to use the library:
+Add `cmu` as a dependency to your `Gemfile`. Then, to use the library:
 
 ```ruby
->> require './lib/cmu'
+>> require 'cmu'
 >> tom = CMU::Directory.find(:andrew_id=>'zhixians').first
 >> tom.name
  => "Tom Shen"
