@@ -10,50 +10,58 @@ module CMU
 
     class Person
       def initialize(data)
-        @andrew_id = data[:cmuAndrewId].last
+        @data = {}
+        @data[:andrew_id] = data[:cmuAndrewId].last
         if data.attribute_names.include?(:nickname)
-          @name = data[:nickname].last
+          @data[:name] = data[:nickname].last
         else
-          @name = data[:cn].last
+          @data[:name] = data[:cn].last
         end
-        @last_name = data[:sn].last
-        @first_name = @name.split()[0]
+        @data[:last_name] = data[:sn].last
+        @data[:first_name] = @data[:name].split()[0]
         if data.attribute_names.include?(:cmupreferredmail)
-          @email = data[:cmupreferredmail].last
+          @data[:email] = data[:cmupreferredmail].last
         else
-          @email = data[:mail].last
+          @data[:email] = data[:mail].last
         end
         if data.attribute_names.include?(:cmupreferredtelephone)
-          @phone = data[:cmupreferredtelephone].last.gsub(/[^0-9]/,'')
+          @data[:phone] = data[:cmupreferredtelephone].last.gsub(/[^0-9]/,'')
         else
-          @phone = nil
+          @data[:phone] = nil
         end
-        @role = data[:edupersonaffiliation].last
+        @data[:role] = data[:edupersonaffiliation].last
         if data.attribute_names.include?(:title)
-          @title = data[:title].last
+          @data[:title] = data[:title].last
         else
           if data.attribute_names.include?(:cmutitle)
-            @title = data[:cmutitle].last
+            @data[:title] = data[:cmutitle].last
           else
-            @title = nil
+            @data[:title] = nil
           end
         end
         if data.attribute_names.include?(:cmustudentclass)
-          @student_class = data[:cmustudentclass].last
+          @data[:student_class] = data[:cmustudentclass].last
         else
-          @student_class = nil
+          @data[:student_class] = nil
         end
         if data.attribute_names.include?(:cmustudentlevel)
-          @student_level = data[:cmustudentlevel].last
+          @data[:student_level] = data[:cmustudentlevel].last
         else
-          @student_level = nil
+          @data[:student_level] = nil
         end
-        @department = data[:cmudepartment].last
-        @affiliated_schools = data[:edupersonschoolcollegename]
+        @data[:department] = data[:cmudepartment].last
+        @data[:affiliated_schools] = data[:edupersonschoolcollegename]
       end
-      attr_reader :andrew_id, :name, :last_name, :first_name, :email,
-      :phone, :role, :title, :student_class, :student_level, :department,
-      :affiliated_schools
+
+      def method_missing(name, *args, &blk)
+        if args.empty? && blk.nil? && @data.has_key?(name)
+          @data[name]
+        else
+          super
+        end
+      end
+
+      attr_reader :data
     end
 
     def Directory.search(query)
