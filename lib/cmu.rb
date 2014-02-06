@@ -13,7 +13,11 @@ module CMU
         @data = {}
         @data[:andrew_id] = data[:cmuAndrewId].last
         if data.attribute_names.include?(:nickname)
-          @data[:name] = data[:nickname].last
+          if data[:nickname].last.include? ' '
+            @data[:name] = data[:nickname].last
+          else
+            @data[:name] = data[:nickname].last + ' ' + data[:sn].last
+          end
         else
           @data[:name] = data[:cn].last
         end
