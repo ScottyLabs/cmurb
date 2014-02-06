@@ -13,6 +13,8 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ['lib']
 
-  # runtime dependencies
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec'
+
   s.add_runtime_dependency 'net-ldap2'
 end
